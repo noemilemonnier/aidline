@@ -1,0 +1,9 @@
+/* TEAM */
+    Front-End Developper: Noemi Lemonnier
+    Contact: noemilemonnier(at)gmail.com
+
+
+
+/* SITE */
+    Last update: 06/10/2020
+    Language: English

@@ -1,0 +1,52 @@
+{
+  "name": "Aidline",
+  "version": "1.0.0",
+  "author": "Noemi Lemonnier <noemilemonnier@gmail.com>",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "heroku-postbuild": "npm run build",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@mdi/js": "^5.6.55",
+    "@nuxt/content": "^1.9.0",
+    "@nuxtjs/axios": "5.12.2",
+    "@nuxtjs/dotenv": "1.4.1",
+    "@nuxtjs/google-gtag": "1.0.4",
+    "@nuxtjs/moment": "1.6.1",
+    "@nuxtjs/proxy": "^2.0.1",
+    "bcryptjs": "^2.4.3",
+    "core-js": "^3.6.5",
+    "express-session": "^1.17.1",
+    "express-validator": "^6.6.1",
+    "jsonwebtoken": "^8.5.1",
+    "nodemon": "^2.0.4",
+    "nuxt": "^2.14.6",
+    "scriptjs": "^2.5.9",
+    "vue-analytics": "5.22.1",
+    "vue-browser-geolocation": "^1.8.0",
+    "vue-cookieconsent-component": "1.2.0",
+    "vue-cryptojs": "2.1.5",
+    "vue-google-places": "^0.1.6",
+    "vue-gtag": "1.10.0",
+    "vue-notification": "1.3.20",
+    "vue2-google-maps": "^0.10.7",
+    "vuelidate": "0.7.6",
+    "vuetify": "2.3.15",
+    "vuetify-google-autocomplete": "2.0.3"
+  },
+  "devDependencies": {
+    "@nuxtjs/eslint-config": "^3.1.0",
+    "@nuxtjs/eslint-module": "^2.0.0",
+    "@nuxtjs/vuetify": "^1.11.2",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.10.0",
+    "eslint-config-prettier": "^6.12.0",
+    "eslint-plugin-nuxt": "^1.0.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "^2.1.2"
+  }
+}

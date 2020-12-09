@@ -97,7 +97,7 @@
 import { required, email, minLength } from "vuelidate/lib/validators";
 import { validationMixin } from "vuelidate";
 import { roles, card_types } from "~/api/types";
-import axios from 'axios'
+import apis from "~/api/calls"
 
 export default {
     props: {
@@ -248,43 +248,39 @@ export default {
         },
     },
     watch: {
-        editTarget(val) {
+        async editTarget(val) {
             this.stepper = 1;
             if (val) {
                 this.user = val;
-                axios.get("/api/users/" + this.user.id)
-                    .then(
-                        response => {
-                            if (response.data.result === true) {
-                                this.user.user_id = response.data.user.id;
-                                this.user.user_type_id = response.data.user.user_type_id;
-                                this.user.email = response.data.user.email;
-                                this.user.password = response.data.user.password;
-                                this.oldpswrd = response.data.user.password;
-                                this.user.first_name = response.data.user.first_name;
-                                this.user.last_name = response.data.user.last_name;
-                                this.user.driver_phone = response.data.detail.driver_phone;
-                                this.user.ambulance_license_plate = response.data.detail.ambulance_license_plate;
-                                this.user.driver_license_number = response.data.detail.driver_license_number;
-                                for (const [key, value] of Object.entries(this.ambulance_type_options)) {
-                                    if (response.data.detail.type_of_ambulance === key) {
-                                        this.user.type_of_ambulance = key;
-                                    }
-                                }
-                                for (const [key, value] of Object.entries(this.card_type_options)) {
-                                    if (response.data.detail.credit_card_type === value) {
-                                        this.user.card_type = value;
-                                    }
-                                }
-                                this.user.card_number = response.data.detail.credit_card_number;
-                                this.user.card_holder = response.data.detail.credit_card_holder_name;
-                                this.user.card_cvv = response.data.detail.credit_card_cvv;
-                                this.user.card_expiry = response.data.detail.credit_card_expiry;
-                            }
+                let response = await apis.getUserByID(this.user.id)
+                if(response !== null || response !== undefined){
+                    this.user.user_id = response.user.id;
+                    this.user.user_type_id = response.user.user_type_id;
+                    this.user.email = response.user.email;
+                    this.user.password = response.user.password;
+                    this.oldpswrd = response.user.password;
+                    this.user.first_name = response.user.first_name;
+                    this.user.last_name = response.user.last_name;
+                    this.user.driver_phone = response.detail.driver_phone;
+                    this.user.ambulance_license_plate = response.detail.ambulance_license_plate;
+                    this.user.driver_license_number = response.detail.driver_license_number;
+                    for (const [key, value] of Object.entries(this.ambulance_type_options)) {
+                        if (response.detail.type_of_ambulance === key) {
+                            this.user.type_of_ambulance = key;
                         }
-                    )
+                    }
+                    for (const [key, value] of Object.entries(this.card_type_options)) {
+                        if (response.detail.credit_card_type === value) {
+                            this.user.card_type = value;
+                        }
+                    }
+                    this.user.card_number = response.detail.credit_card_number;
+                    this.user.card_holder = response.detail.credit_card_holder_name;
+                    this.user.card_cvv = response.detail.credit_card_cvv;
+                    this.user.card_expiry = response.detail.credit_card_expiry;
+                }
             }
-        },
+        }
     },
     methods: {
         onDismissed() {

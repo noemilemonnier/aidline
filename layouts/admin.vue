@@ -52,6 +52,7 @@
 import { mdiLogout, mdiCogs, mdiArrowLeftCircle } from "@mdi/js";
 import { roles } from "@/api/types";
 import axios from 'axios'
+import apis from "~/api/calls"
 import {getters} from "~/store/store"
 
 export default {
@@ -101,10 +102,13 @@ export default {
 		async callme(){
 			try {
 				let that = this;
-      			let request = await axios.get('/api/get_single_request_by_user/' + getters.GET_USER_ID());
+				let request = await apis.getUserRequest(getters.GET_USER_ID())
+				//console.log(test)
+				//let request = await axios.get('/api/get_single_request_by_user/' + getters.GET_USER_ID());
+				//console.log(request)
 				let geolocate = await this.$store.dispatch( "geolocate" )
 				if(getters.GET_USER_TYPE() === 1 && request.data.result === true && request.data.data[0] !== undefined){ //if user is a user && has a active request
-					request.data.data.forEach(req => {
+					request.data.forEach(req => {
           				if(this.wasPushed === false && req.driver !== null && req.request.finish_time === null){
 							this.$notify({
                     			group: 'foo',

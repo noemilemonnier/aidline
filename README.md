@@ -6,7 +6,7 @@
   <p align="center">
     Master Project Front-End
     <br />
-    <a href="https://github.com/noemilemonnier/aidline"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/noemilemonnier/frontend"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://aidline.herokuapp.com">View Demo</a>
@@ -60,11 +60,11 @@ npm install npm@latest -g
 
 1. Clone the repo
 ```sh
-git clone https://github.com/noemilemonnier/aidline
+git clone https://github.com/noemilemonnier/frontend
 ```
 2. Go into the folder
 ```sh
-cd aidline
+cd frontend
 ```
 3. Install NPM packages
 ```sh
@@ -133,4 +133,4 @@ Distributed under no license.
 
 Noemi Lemonnier <noemilemonnier@gmail.com>
 
-Project Link: [https://github.com/noemilemonnier/aidline](https://github.com/noemilemonnier/aidline)
+Project Link: [https://github.com/noemilemonnier/frontend](https://github.com/noemilemonnier/frontend)

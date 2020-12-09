@@ -1,0 +1,132 @@
+<template>
+    <div>
+        <v-container>
+            <h1 class="text-center">Your Current Request</h1>
+            <v-divider></v-divider>
+            <p class="text-center">This is where you can see your current request.</p>
+            <p class="text-center">Once an amublance has picked up your request, you will see how long you need to wait.</p>
+        </v-container>
+        <v-container v-if="hasCurrentReq">
+            <v-row class="mt-5" justify="center">
+                <v-col cols="12" sm="10" md="8" lg="6">
+                    <v-card width="40em" height="24em" elevation="4">
+                        <v-form>
+                            <v-card-text class="justify-center">
+                                <v-row class="mx-2">
+                                    <v-textarea class="mx-2" disabled outlined no-resize label="Time of emergency" v-model="request_time"></v-textarea>
+                                </v-row>
+                                <v-row class="mx-2 mt-4">
+                                    <v-textarea class="mx-2" disabled outlined no-resize label="Reason of emergency" v-model="description"></v-textarea>
+                                </v-row>
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-row class="mx-2">
+                                    <v-spacer></v-spacer>
+                                    <v-tooltip bottom>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn large class="mx-2" color="primary" v-bind="attrs" v-on="on">Cancel Request</v-btn>
+                                        </template>
+                                        <span>This is not yet implemented...</span>
+                                    </v-tooltip>
+                                    <v-spacer></v-spacer>
+                                </v-row>
+                            </v-card-actions>
+                        </v-form>
+                    </v-card>
+                </v-col>
+                <v-col cols="12" sm="10" md="8" lg="6">
+                    <v-card v-if="isAssigned" shaped outlined>
+                        <v-card-title> Ambulance on its way...</v-card-title>
+                        <v-card-text class="justify-center">
+                            <v-row align="center" class="justify-center" >
+                                <v-col cols="4" >
+                                    <v-img class="ml-12" max-height="100" max-width="100" src="/img/ambulance-icon.png"></v-img>
+                                </v-col>
+                                <v-col cols="7">
+                                    <p class="mr-1"> The ambulance is {{kilometersAway}} kilometers away </p>
+                                </v-col>
+                            </v-row>
+                        </v-card-text>
+                    </v-card>
+                    <v-card v-else shaped outlined>
+                        <v-card-title> Your request is pending...</v-card-title>
+                        <v-card-text class="justify-center">
+                            <v-row align="center" class="justify-center" >
+                                <v-col cols="4" >
+                                    <p> Your request has been registered and is waiting for an ambulance driver to select it.</p>
+                                </v-col>
+                            </v-row>
+                        </v-card-text>
+                    </v-card>
+                </v-col>
+            </v-row>
+        </v-container>
+        <v-container v-if="!hasCurrentReq">
+         <v-row class="mt-5" align="center" justify="center">
+                <v-col cols="12" sm="10" md="8" lg="6">
+                    <v-card tile shaped outlined >
+                        <v-card-text class="text-center error--text">
+                        <h4> You have no active request at the moment.</h4>
+                        </v-card-text>
+                    </v-card>
+                </v-col>
+         </v-row>
+        </v-container>
+    </div>
+</template>
+
+<script>
+import {getDistanceFromLatLonInKm, compareValues, dateFormat} from '~/api/functions'
+import axios from 'axios'
+
+
+// Need to connect to back-end, retrieve user current request, if request is assigned change display to isAssigned=true and set the distance
+export default {
+    layout: "admin",
+	head: () => ({
+        title: "Current Request"
+    }),
+    data: () => ({
+        //if an ambulance is assigned to the request connect to backend
+        isAssigned: false,
+        hasCurrentReq: false,
+        kilometersAway: 0,
+        rules: {
+          required: value => !!value || 'Required.',
+        },
+        request_time: 'N/A',
+        description: 'N/A'
+    }),
+    async mounted(){
+		try {
+            await axios.get("/api/get_active_requests")
+            .then(
+                response => {
+                    if(response.data.data !== null){
+                        this.hasCurrentReq = true
+                        let str = response.data.data[0].request.request_time
+                        this.request_time = dateFormat(str)
+                        this.description = response.data.data[0].request.request_description
+                        if(response.data.data[0].request.accept_time !== null){
+                            this.isAssigned = true
+                            this.kilometersAway = getDistanceFromLatLonInKm(response.data.data[0].request.latitude, response.data.data[0].request.longitude, response.data.data[0].driver.latitude, response.data.data[0].driver.longitude )
+                        }
+                        this.isLoading = false
+                    }
+                })
+                .catch((error) => {
+                    console.error("There was an error in retrieving request!", error);
+                });
+		} catch( err ){
+			console.error("Couldn't fetch request");
+		}
+    },
+}
+</script>
+
+<style scoped>
+#card{
+    border-radius:30px;
+}
+
+</style>

@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import {gmapApi} from 'vue2-google-maps'
 import {actions, getters, setters } from "~/store/store"
 import {range} from 'lodash'

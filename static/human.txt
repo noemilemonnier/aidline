@@ -1,0 +1,12 @@
+/* TEAM */
+    Front-End Developper: Noemi Lemonnier
+    Contact: noemilemonnier(at)gmail.com
+    Back-End Developper: Farhad Hossain
+    Back-End Developper: Satkar Tiwari
+    Documentation: Emiola Ibironke
+
+
+
+/* SITE */
+    Last update: 07/12/2020
+    Language: English

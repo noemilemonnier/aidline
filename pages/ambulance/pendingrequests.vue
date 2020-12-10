@@ -78,7 +78,7 @@
 import { mdiCheckboxBlankOutline } from "@mdi/js";
 import {gmapApi} from 'vue2-google-maps'
 import apis from "~/api/calls"
-import {getDistanceFromLatLonInKm} from '~/api/functions';
+import {getDistanceFromLatLonInKm, dateFormat} from '~/api/functions';
 import {actions, getters, setters } from "~/store/store"
 
 export default {
@@ -128,7 +128,7 @@ export default {
                                 longitude: item.request.longitude,
                                 distance: distance,
                                 request_description: item.request.request_description,
-                                request_time: item.request.request_time
+                                request_time: dateFormat(item.request.request_time)
                             });
                         })
                     this.isLoading = false

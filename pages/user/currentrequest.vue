@@ -3,11 +3,13 @@
         <v-container>
             <h1 class="text-center">Your Current Request</h1>
             <v-divider></v-divider>
-            <p class="text-center">This is where you can see your current request.</p>
-            <p class="text-center">Once an amublance has picked up your request, you will see how long you need to wait.</p>
+            <p class="text-center">This is where you can see your current request. Once an amublance has picked up your request, you will see how long you need to wait.</p>
+            <v-row class="mt-5" justify="center">
+                <v-btn large class="mx-2" color="primary" @click.prevent="cancelRequest">Cancel Request</v-btn>
+            </v-row>
         </v-container>
         <v-container v-if="hasCurrentReq">
-            <v-row class="mt-5" justify="center">
+            <v-row justify="center">
                 <v-col cols="12" sm="10" md="8" lg="6">
                     <v-card width="40em" height="24em" elevation="4">
                         <v-form>
@@ -19,18 +21,11 @@
                                     <v-textarea class="mx-2" disabled outlined no-resize label="Reason of emergency" v-model="description"></v-textarea>
                                 </v-row>
                             </v-card-text>
-                            <v-card-actions>
-                                <v-row class="mx-2">
-                                    <v-spacer></v-spacer>
-                                        <v-btn large class="mx-2" color="primary" @click.prevent="cancelRequest">Cancel Request</v-btn>
-                                    <v-spacer></v-spacer>
-                                </v-row>
-                            </v-card-actions>
                         </v-form>
                     </v-card>
                 </v-col>
             </v-row>
-            <v-row class="mt-15" justify="center">
+            <v-row justify="center">
                 <v-col cols="12" sm="10" md="8" lg="6">
                     <v-card v-if="isAssigned" shaped outlined>
                         <v-card-title> Ambulance on its way...</v-card-title>
@@ -47,9 +42,9 @@
                     </v-card>
                     <v-card v-else shaped outlined>
                         <v-card-title> Your request is pending...</v-card-title>
-                        <v-card-text class="justify-center">
+                        <v-card-text>
                             <v-row align="center" class="justify-center" >
-                                <v-col cols="4" >
+                                <v-col cols="12" >
                                     <p> Your request has been registered and is waiting for an ambulance driver to select it.</p>
                                 </v-col>
                             </v-row>

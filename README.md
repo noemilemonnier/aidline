@@ -89,21 +89,21 @@ Use this space to show useful examples of how a project can be used. Additional 
 
 | Status | Role | Route | Note |
 | :---: | :--- | --- | --- |
-| ✔ | Home Page | `/` | Completed |
-| ✔ |  Login Page | `/login` | Need to connect to back-end |
-| ✔ | Create User Page | `/create` | Need to connect to back-end |
-| ✔ | Home Page for Ambulance Drivers once logged in | `/ambulance` | Need to connect to back-end |
+| ✔  | Home Page | `/` | Completed |
+| ✔  | Login Page | `/login` | Need to connect to back-end |
+| ✔  | Create User Page | `/create` | Need to connect to back-end |
+| ✔  | Home Page for Ambulance Drivers once logged in | `/ambulance` | Need to connect to back-end |
 |  ✔ | To see current active request | `/ambulance/currentrequest` | Need to connect to back-end |
-| ✔ | Display all pending requests | `/ambulance/pendingrequests` | Need to connect to back-end |
-| ✔ | Modify driver-user information | `/ambulance/settings` | Need to connect to back-end |
-| ✔ | Home Page for User once logged in| `/user` | Need to connect to back-ends |
-| ✔ | Display current request | `/user/currentrequest` | Connect to back-end to get coordinates for distance |
-| ✔ | Send a request | `/user/sendrequest` | Need to connect to back-end |
+| ✔  | Display all pending requests | `/ambulance/pendingrequests` | Need to connect to back-end |
+| ✔  | Modify driver-user information | `/ambulance/settings` | Need to connect to back-end |
+| ✔  | Home Page for User once logged in| `/user` | Need to connect to back-ends |
+| ✔  | Display current request | `/user/currentrequest` | Connect to back-end to get coordinates for distance |
+| ✔  | Send a request | `/user/sendrequest` | Need to connect to back-end |
 | ✔  | Modify user information | `/user/settings` | Need to connect to back-end  |
 | ✔  | Home Page for Admin once logged in | `/admin` | Need to connect to back-end for roles |
-| ✔ | Display all requests (create, modify, delete) | `/admin/requests` | Need to connect to back-end |
-| ✔ | Display all users (create, modify, delete)s  | `/admin/users` | Need to connect to back-end |
-| ✔ | Modify admin-user information | `/admin/settings` | Need to connect to back-end |
+| ✔  | Display all requests (create, modify, delete) | `/admin/requests` | Need to connect to back-end |
+| ✔  | Display all users (create, modify, delete)s  | `/admin/users` | Need to connect to back-end |
+| ✔  | Modify admin-user information | `/admin/settings` | Need to connect to back-end |
 
 
 <!-- FUNCTIONALITIES -->
@@ -117,10 +117,10 @@ Use this space to show useful examples of how a project can be used. Additional 
 | ✔  | Google Places API | Add to Home Page |
 | ✔  | Google Autocomplete | Add to Home Page |
 | ✔  | Google Map API | Add a Map Ambulance Current Request Page |
-|  ✔  | Google Analytics API | Add analytics for the website |
+| ✔  | Google Analytics API | Add analytics for the website |
 | ✔  | Geolocation | Get geolocation from user |
 | ✔  | Google Places API | Add Places API to receive list of hospitals near by |
-| ✔ | Push notifications | User must receive notification when driver picks up his request |
+| ✔  | Push notifications | User must receive notification when driver picks up his request |
 
 <!-- LICENSE -->
 ## License

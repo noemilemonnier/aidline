@@ -5,7 +5,7 @@
 				<div v-if="isUser" class="user-view text-center"><nuxt-link to="/user"><img contain width="110px" height="110px" alt="AidLine" src="/img/logo.png"></nuxt-link></div>
 				<div v-if="isDriver" class="user-view text-center"><nuxt-link to="/ambulance"><img contain width="110px" height="110px" alt="AidLine" src="/img/logo.png"></nuxt-link></div>
 				<div v-if="isAdmin" class="user-view text-center"><nuxt-link to="/admin"><img contain width="110px" height="110px" alt="AidLine" src="/img/logo.png"></nuxt-link></div>
-				<h3 class="text-center mt-8 mb-3">Navigation panel</h3>
+				<h3 class="text-center mt-8 mb-3">Navigation</h3>
 				<v-divider></v-divider>
 
 				<!-- User Pages v-if="isUser"-->
@@ -51,7 +51,6 @@
 <script>
 import { mdiLogout, mdiCogs, mdiArrowLeftCircle } from "@mdi/js";
 import { roles } from "@/api/types";
-import axios from 'axios'
 import apis from "~/api/calls"
 import {getters} from "~/store/store"
 
@@ -103,9 +102,6 @@ export default {
 			try {
 				let that = this;
 				let request = await apis.getUserRequest(getters.GET_USER_ID())
-				//console.log(test)
-				//let request = await axios.get('/api/get_single_request_by_user/' + getters.GET_USER_ID());
-				//console.log(request)
 				let geolocate = await this.$store.dispatch( "geolocate" )
 				if(getters.GET_USER_TYPE() === 1 && request.data.result === true && request.data.data[0] !== undefined){ //if user is a user && has a active request
 					request.data.forEach(req => {

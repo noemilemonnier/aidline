@@ -32,12 +32,7 @@
                                 </v-card-text>
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
-                                    <v-tooltip bottom>
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-btn class="mx-6 mb-2" large color="primary" :disabled="!isValid" @click.prevent="validate" v-bind="attrs" v-on="on">Submit</v-btn>
-                                        </template>
-                                        <span>This is not yet implemented...</span>
-                                    </v-tooltip>
+                                    <v-btn class="mx-6 mb-2" large color="primary" :disabled="!isValid" @click.prevent="validate">Submit</v-btn>
                                 </v-card-actions>
                             </v-form>
                         </v-card>
@@ -55,6 +50,7 @@ import apis from "~/api/calls"
 
 export default {
     layout: "admin",
+    middleware: 'admin',
 	head: () => ({
         title: "Settings"
     }),

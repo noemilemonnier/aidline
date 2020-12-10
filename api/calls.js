@@ -1,8 +1,33 @@
 import axios from 'axios'
 
-//export const getUserByID = id =>  axios.get("/api/users/${id}")
-export const getUsers = () =>  axios.get("/api/users/")
-//const getUserRequest = (id) =>  axios.get("/api/get_single_request_by_user/" + id)
+async function getUsers(){
+    try{
+        return axios.get("/api/users")
+        .then(function(response) {
+            return response;
+        })
+        .then(function(text) {
+            let val = text.data;
+            return val;
+        });
+    }catch(error){
+        console.error("There was an error in retrieving users from the API Call!", error);
+    }
+}
+async function deleteUser(id){
+    try{
+        return axios.delete("/api/users/" + id)
+        .then(function(response) {
+            return response;
+        })
+        .then(function(text) {
+            let val = text.data;
+            return val;
+        });
+    }catch(error){
+        console.error("There was an error in deleting the user from the API Call!", error);
+    }
+}
 async function getUserRequest(id) {
     try{
         return axios.get('/api/get_single_request_by_user/' + id)
@@ -15,7 +40,7 @@ async function getUserRequest(id) {
         });
     }
     catch(err){
-        console.error("There was an error in retrieving user!", error);
+        console.error("There was an error in retrieving request!", error);
     }
 }
 async function getUserByID(id) {
@@ -37,6 +62,21 @@ async function getUserByID(id) {
 async function getActiveRequests(){
     try{
         return axios.get("/api/get_active_requests")
+        .then(function(response) {
+            return response;
+        })
+        .then(function(text) {
+            let val = text.data;
+            return val;
+        });
+    }catch(error){
+        console.error("There was an error in retrieving active requests!", error);
+    }
+}
+
+async function getNotAcceptedRequests(){
+    try{
+        return axios.get("/api/get_not_accepted_requests")
         .then(function(response) {
             return response;
         })
@@ -81,12 +121,14 @@ async function finishRequest(id){
 }
 
 const apis = {
-    getUsers, //do I use it?
+    getUsers,
     getUserByID,
+    deleteUser,
     getActiveRequests,
     deleteRequest,
     getUserRequest,
-    finishRequest
+    finishRequest,
+    getNotAcceptedRequests
 }
 
 export default apis

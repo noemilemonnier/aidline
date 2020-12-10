@@ -21,8 +21,7 @@
                 <p> 1. Create your account <NuxtLink to="/create">here</NuxtLink> </p>
                 <p> 2. Select "Request an Ambulance" </p>
                 <p> 3. Fill the form </p>
-                <p> Do not forget to enable your location! </p>
-                <p>(See <a target="_blank" href="https://docs.buddypunch.com/en/articles/919258-how-to-enable-location-services-for-chrome-safari-edge-and-android-ios-devices-gps-setting">here</a> how)</p>
+                <p> Do not forget to enable your location! (See <a target="_blank" href="https://docs.buddypunch.com/en/articles/919258-how-to-enable-location-services-for-chrome-safari-edge-and-android-ios-devices-gps-setting">here</a> how)</p>
               </v-card-text>
             </v-card>
           </v-col>
@@ -57,5 +56,9 @@ export default {
 }
 .v-card__text, .v-card__title {
   word-break: normal; /* maybe !important  */
+}
+p {
+  font-size: medium;
+  font-family: Helvetica, sans-serif;
 }
 </style>

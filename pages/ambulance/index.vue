@@ -43,6 +43,8 @@
 
 <script>
 import { mdiCog } from "@mdi/js";
+import { getters, setters } from "~/store/store"
+
 
 export default {
     layout: "admin",
@@ -58,19 +60,33 @@ export default {
         button_color: ''
     }),
     async mounted(){
-        this.button_color = this.$store.state.color_driver_status
+        if(getters.GET_DRIVER_STATUS() === false){
+            this.button_color = "success"
+        }
+        else {
+            this.keepDriverStatus()
+        }
     },
     methods: {
-        // Need to add to change the value of the ambulancerDriver status on/off
-        // use update_ambulance_location too
+        keepDriverStatus(){
+            if( getters.GET_DRIVER_STATUS() === "busy"){
+                this.ambulance_status = 'busy'
+                this.button_color = "primary"
+            }
+            else{
+                setters.SET_DRIVER_STATUS("not busy")
+                this.ambulance_status = 'busy'
+                this.button_color = "success"
+            }
+        },
         changeAmbulanceStatus(){
-            if(this.$store.state.driver_status === "busy"){
-                this.$store.dispatch("setDriverStatus", { "status" : 'not busy' })
+            if( getters.GET_DRIVER_STATUS() === "busy"){
+                setters.SET_DRIVER_STATUS("not busy")
                 this.ambulance_status = 'not busy'
                 this.button_color = "success"
             }
             else{
-                this.$store.dispatch("setDriverStatus", { "status" : 'busy' })
+                setters.SET_DRIVER_STATUS("busy")
                 this.ambulance_status = 'busy'
                 this.button_color = "primary"
             }

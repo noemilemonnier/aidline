@@ -22,18 +22,15 @@
                             <v-card-actions>
                                 <v-row class="mx-2">
                                     <v-spacer></v-spacer>
-                                    <v-tooltip bottom>
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-btn large class="mx-2" color="primary" v-bind="attrs" v-on="on">Cancel Request</v-btn>
-                                        </template>
-                                        <span>This is not yet implemented...</span>
-                                    </v-tooltip>
+                                        <v-btn large class="mx-2" color="primary" @click.prevent="cancelRequest">Cancel Request</v-btn>
                                     <v-spacer></v-spacer>
                                 </v-row>
                             </v-card-actions>
                         </v-form>
                     </v-card>
                 </v-col>
+            </v-row>
+            <v-row class="mt-15" justify="center">
                 <v-col cols="12" sm="10" md="8" lg="6">
                     <v-card v-if="isAssigned" shaped outlined>
                         <v-card-title> Ambulance on its way...</v-card-title>
@@ -76,13 +73,16 @@
 </template>
 
 <script>
-import {getDistanceFromLatLonInKm, compareValues, dateFormat} from '~/api/functions'
-import axios from 'axios'
+import {getDistanceFromLatLonInKm, dateFormat} from '~/api/functions'
+import apis from "~/api/calls"
+import {getters} from '~/store/store'
+
 
 
 // Need to connect to back-end, retrieve user current request, if request is assigned change display to isAssigned=true and set the distance
 export default {
     layout: "admin",
+    middleware: 'user',
 	head: () => ({
         title: "Current Request"
     }),
@@ -94,33 +94,48 @@ export default {
         rules: {
           required: value => !!value || 'Required.',
         },
+        request_id: 0,
         request_time: 'N/A',
         description: 'N/A'
     }),
     async mounted(){
 		try {
-            await axios.get("/api/get_active_requests")
-            .then(
-                response => {
-                    if(response.data.data !== null){
+            let response = await apis.getUserRequest(getters.GET_USER_ID())
+            if(response !== null && response.result === true){
+                response.data.forEach( request => {
+                    if(request.customer.id === getters.GET_USER_ID() && request.request.finish_time === null){
+                        this.request_id= request.request.id
                         this.hasCurrentReq = true
-                        let str = response.data.data[0].request.request_time
+                        let str = request.request.request_time
                         this.request_time = dateFormat(str)
-                        this.description = response.data.data[0].request.request_description
-                        if(response.data.data[0].request.accept_time !== null){
+                        this.description = request.request.request_description
+                        if(request.request.accept_time !== null){
                             this.isAssigned = true
-                            this.kilometersAway = getDistanceFromLatLonInKm(response.data.data[0].request.latitude, response.data.data[0].request.longitude, response.data.data[0].driver.latitude, response.data.data[0].driver.longitude )
+                            this.kilometersAway = getDistanceFromLatLonInKm(request.request.latitude, request.request.longitude, request.driver.latitude, request.driver.longitude )
                         }
                         this.isLoading = false
                     }
                 })
-                .catch((error) => {
-                    console.error("There was an error in retrieving request!", error);
-                });
-		} catch( err ){
-			console.error("Couldn't fetch request");
+            }
+        }catch( error ){
+			console.error("There was an error in retrieving request!", error);
 		}
     },
+    methods:{
+        async cancelRequest(){
+			if( !confirm( "Are you sure you want to cancel this request?" ))
+				return;
+			try {
+                let response = await apis.deleteRequest(this.request_id)
+                if (response.result === true) {
+                    window.alert(response.message)
+                    this.$router.replace("/user")
+                }
+			} catch( err ){
+				console.error("Couldn't cancel request" );
+			}
+		},
+    }
 }
 </script>
 

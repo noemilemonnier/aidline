@@ -1,6 +1,6 @@
 
 import axios from 'axios'
-import { user, setters, getters } from "./store";
+import { setters, getters } from "./store";
 
 export const state = () => ({
   user_id: null,
@@ -59,14 +59,14 @@ export const actions = {
     commit('SET_POLICY')
   },
   setDriverStatus({commit}, {status}){
-    setters.SET_DRIVER_STATUS(status)
-    commit('SET_DRIVER_STATUS', status);
     if(status === "not busy"){
       state.color_driver_status = "success"
     }
     if(status === "busy"){
       state.color_driver_status = "primary"
     }
+    setters.SET_DRIVER_STATUS(status)
+    commit('SET_DRIVER_STATUS', status);
   },
   geolocate({ commit }) {
     if ("geolocation" in navigator) {

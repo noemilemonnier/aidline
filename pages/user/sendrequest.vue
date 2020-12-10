@@ -27,14 +27,9 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-row class="mx-2">
-                        <v-spacer></v-spacer>
-                        <v-tooltip bottom>
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-btn large class="mx-2" color="primary" :disabled="!isValid" @click.prevent="validate" v-bind="attrs" v-on="on">Submit</v-btn>
-                            </template>
-                            <span>This is not yet implemented...</span>
-                         </v-tooltip>
-                         <v-spacer></v-spacer>
+                            <v-spacer></v-spacer>
+                            <v-btn large class="mx-2" color="primary" :disabled="!isValid" @click.prevent="validate">Submit</v-btn>
+                            <v-spacer></v-spacer>
                         </v-row>
                     </v-card-actions>
                 </v-form>
@@ -61,10 +56,11 @@
 import {getAddressData} from '~/api/functions';
 import { mdiCog } from "@mdi/js";
 import {getters} from "~/store/store"
-import axios from 'axios'
+import apis from "~/api/calls"
 
 export default {
     layout: "admin",
+    middleware: 'user',
 	head: () => ({
         title: "Current Request"
     }),
@@ -86,26 +82,20 @@ export default {
     }),
     async mounted(){
 		try {
-            await axios.get("/api/get_single_request_by_user/" + getters.GET_USER_ID())
-            .then(
-                response => {
-                    if(response.data.result === true){
-                        response.data.data.forEach(req => {
-                            if(req.request.accept_time === null && req.request.finish_time === null){
-                                this.hasRequest = true
-                                this.isLoading = false
-                            }
-                        })
-                    }
-                    else{
-                            this.hasRequest = false
+            let response = await apis.getUserRequest(getters.GET_USER_ID())
+            if(response !== null && response.result === true){
+                response.data.forEach(req => {
+                    if(req.request.accept_time === null && req.request.finish_time === null){
+                        this.hasRequest = true
+                        this.isLoading = false
                     }
                 })
-                .catch((error) => {
-                    console.error("There was an error in checking your request!", error);
-                });
-		} catch( err ){
-			console.error("Couldn't fetch request");
+            }
+            else{
+                this.hasRequest = false
+            }
+		} catch( error ){
+			console.error("There was an error in checking your request!", error);
 		}
     },
     methods: {

@@ -4,7 +4,6 @@
             <h1 class="text-center">Users</h1>
             <v-divider></v-divider>
             <div class="text-center ma-12">
-                <!-- Change to isLoading and then set it to false when it is ready to charge the page-->
                 <v-progress-circular :size="200" color="primary" indeterminate v-if="isLoading"></v-progress-circular>
             </div>
         </v-container>
@@ -23,7 +22,7 @@
       </v-speed-dial>
     </v-container>
 
-    <!-- @updated="onUserUpdated" -->
+    <!-- Removed @updated="onUserUpdated" -->
     <user-form :editTarget="editingUser" v-on:close-dialog="closeDialog" v-model="showUserForm" @added="onUserAdded"></user-form>
     <driver-form :editTarget="editingDriver" v-on:close-dialog="closeDialog2" v-model="showDriverForm" @added="onDriverAdded"></driver-form>
     <admin-form :editTarget="editingAdmin" v-on:close-dialog="closeDialog3" v-model="showAdminForm" @added="onAdminAdded"></admin-form>
@@ -41,27 +40,23 @@
                 <template v-slot:[`item.id`]="{ item }">
                     {{ item.id }}
                 </template>
-
-<template v-slot:[`item.first_name`]="{ item }">
-     {{ item.first_name }}
-</template>
-
-<template v-slot:[`item.last_name`]="{ item }">
-     {{ item.last_name }}
-</template>
-
-<template v-slot:[`item.user_type_id`]="{ item }">
-     {{ item.user_type_id }}
-</template>
-
-<template v-slot:[`item.actions`]="{ item }">
-    <!--<v-btn color="primary" icon xSmall @click="toggleEditForm(item.id, item.user_type_id)">
-        <v-icon>{{ $i.mdiPencil }}</v-icon>
-    </v-btn> -->
-    <v-btn color="error" icon xSmall @click="deleteUser(item.id)">
-        <v-icon>{{ $i.mdiDelete }}</v-icon>
-    </v-btn>
-</template>
+                <template v-slot:[`item.first_name`]="{ item }">
+                    {{ item.first_name }}
+                </template>
+                <template v-slot:[`item.last_name`]="{ item }">
+                    {{ item.last_name }}
+                </template>
+                <template v-slot:[`item.user_type_id`]="{ item }">
+                    {{ item.user_type_id }}
+                </template>
+                <template v-slot:[`item.actions`]="{ item }">
+                    <!--<v-btn color="primary" icon xSmall @click="toggleEditForm(item.id, item.user_type_id)">
+                        <v-icon>{{ $i.mdiPencil }}</v-icon>
+                    </v-btn> -->
+                    <v-btn color="error" icon xSmall @click="deleteUser(item.id)">
+                        <v-icon>{{ $i.mdiDelete }}</v-icon>
+                    </v-btn>
+                </template>
             </v-data-table>
           </client-only>
         </v-card>
@@ -72,7 +67,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import apis from "~/api/calls"
 import { mdiCheckboxBlankOutline } from "@mdi/js";
 import AdminForm from "~/components/adminForm";
 import UserForm from "~/components/userForm";
@@ -81,6 +76,7 @@ const allText = "All";
 
 export default {
     layout: "admin",
+    middleware: 'admin',
     head: () => ({
         title: "Users",
     }),
@@ -127,18 +123,12 @@ export default {
     }),
     async mounted() {
         try {
-            axios
-                .get("/api/users")
-                .then((response) => {
-                    this.users = response.data;
-                })
-                .catch((error) => {
-                    console.error("There was an error in retrieving users!", error);
-                });
-        } catch (err) {
-            if (err.response) {
-                console.error("Could not fetch users");
+            let response = await apis.getUsers()
+            if(response !== null || response !== undefined){
+                this.users = response;
             }
+        } catch (error) {
+            console.error("There was an error in retrieving users!", error);
         }
         this.isLoading = false;
     },
@@ -308,17 +298,15 @@ export default {
             this.showAdminForm = true;
         },
         async deleteUser(id) {
-            //Not working on back-end at the moment
+            //does not allow admin delete
             if (!confirm("Are you sure you want to delete this user?")) return;
             try {
-                axios
-                    .delete("/api/users/" + id)
-                    .then((response) => {
-                        //const index = this.users.findIndex((user) => user.id === id);
-                        //this.users.splice(index, 1);
-                        window.alert(response.data.message);
-                    })
-                    .catch(err)({});
+                let response = await apis.deleteUser(id)
+                if(response !== null || response !== undefined){
+                    const index = this.users.findIndex((user) => user.id === id);
+                    this.users.splice(index, 1);
+                    window.alert(response.message);
+                }
             } catch (err) {
                 console.error("Couldn't delete user");
             }

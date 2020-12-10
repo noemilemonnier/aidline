@@ -40,7 +40,6 @@
                                     <!-- TO CHANGE TO SET THE REQUEST TO CHOSEN REQUEST AND REMOVE IT FROM PENDING REQUEST-->
                                     <v-btn color="primary" text @click="toggleSelected(item.id)"> Yes </v-btn>
                                     <v-btn text @click="dialog = false"> No </v-btn>
-                                    <v-btn text @click="dialog = false"> Release </v-btn>
                                 </v-card-actions>
                             </v-card>
                         </v-dialog>
@@ -63,6 +62,7 @@ import { dateFormat} from '~/api/functions';
 
 export default {
     layout: "admin",
+    middleware: 'driver',
 	head: () => ({
         title: "Current Request"
     }),

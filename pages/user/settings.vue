@@ -96,6 +96,7 @@ import { card_types } from "~/api/types";
 
 export default {
     layout: "admin",
+    middleware: 'user',
 	head: () => ({
         title: "Settings"
     }),

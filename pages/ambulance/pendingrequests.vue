@@ -77,12 +77,13 @@
 <script>
 import { mdiCheckboxBlankOutline } from "@mdi/js";
 import {gmapApi} from 'vue2-google-maps'
-import axios from 'axios'
+import apis from "~/api/calls"
 import {getDistanceFromLatLonInKm} from '~/api/functions';
 import {actions, getters, setters } from "~/store/store"
 
 export default {
     layout: "admin",
+    middleware: 'driver',
 	head: () => ({
         title: "Pending Requests"
     }),
@@ -110,15 +111,13 @@ export default {
     }),
     async mounted(){
 		try {
-            if(this.$store.state.driver_status === "not busy"){
+            if(getters.GET_DRIVER_STATUS() === "not busy" || getters.GET_DRIVER_STATUS() === false){
                 this.isBusy = false
                 await this.$store.dispatch( "geolocate" )
-                axios
-                .get("/api/get_not_accepted_requests")
-                .then((response) => {
-                    let list = response.data.data;
-                    setters.SET_PENDING_REQUESTS(list)
-                    list.forEach(item => {
+                let response = await apis.getNotAcceptedRequests()
+                if(response !== null && response.result === true){
+                    setters.SET_PENDING_REQUESTS(response.data)
+                    response.data.forEach(item => {
                             let user_full_name = item.customer.first_name + " " + item.customer.last_name;
                             let distance = getDistanceFromLatLonInKm(this.$store.state.lat, this.$store.state.lng, item.request.latitude, item.request.longitude)
                             this.requests.push({
@@ -133,18 +132,15 @@ export default {
                             });
                         })
                     this.isLoading = false
-                 })
-                .catch((error) => {
-                        console.error("There was an error in retrieving users!", error);
-                });
+                 }
             }
-            if(this.$store.state.driver_status === "busy"){
+            if(getters.GET_DRIVER_STATUS() === "busy"){
                 this.isBusy = true
                 this.isLoading = false
             }
 
 		} catch( err ){
-			console.error("Couldn't fetch data");
+			console.error("Couldn't fetch not accepted requests");
 		}
     },
     computed:{
@@ -161,6 +157,7 @@ export default {
                 this.$store.dispatch( "ambulance_update", { "driver_user_id" : getters.GET_USER_ID() , "latitude" : this.$store.state.lat, "longitude" : this.$store.state.lng  } )
                 this.$store.dispatch( "accept_request", { "driver_user_id" : getters.GET_USER_ID() , "ambulance_request_id" : id} )
                 this.$store.dispatch("setDriverStatus", { "status" : 'busy' })
+                setters.SET_DRIVER_STATUS("busy")
             }
             catch(error) {
               window.alert("There was an error in selecting request!", error);

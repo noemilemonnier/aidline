@@ -91,6 +91,7 @@ import apis from "~/api/calls"
 
 export default {
     layout: "admin",
+    middleware: 'driver',
 	head: () => ({
         title: "Settings"
     }),

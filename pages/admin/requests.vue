@@ -62,6 +62,7 @@ import apis from "~/api/calls"
 
 export default {
     layout: "admin",
+    middleware: 'admin',
 	head: () => ({
         title: "Pending Requests"
     }),
@@ -143,8 +144,9 @@ export default {
 			try {
                 let response = await apis.deleteRequest(id)
                 if (response.result === true) {
+                    const index = this.requests.findIndex((request) => request.id === id);
+                    this.requests.splice(index, 1);
                     window.alert(response.message)
-                    this.$router.replace("/admin")
                 }
 			} catch( err ){
 				console.error("Couldn't delete request" );

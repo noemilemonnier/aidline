@@ -1,5 +1,4 @@
 import Vue from "vue";
-import axios from 'axios'
 
 export const user = Vue.observable({
     user_id: null,

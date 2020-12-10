@@ -70,7 +70,7 @@
                                     </v-card-text>
                                 </v-card>
                                 <v-spacer></v-spacer>
-                                <v-row justify='end'>
+                                <v-row class="mt-3" justify='end'>
                                     <v-btn large class="mx-3" color="primary" @click="stepper = 1" >  Previous </v-btn>
                                     <v-btn large class="mx-3" color="primary" :disabled="!isValid" @click.prevent="validate">Update</v-btn>
                                  </v-row>

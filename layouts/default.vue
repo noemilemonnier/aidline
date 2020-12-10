@@ -12,9 +12,6 @@
         <v-divider/>
         <v-list-item><v-btn class="white--text mt-8" color="primary" large nuxt to="/login"><v-icon left size="24px">{{ $i.mdiAmbulance }}</v-icon>Need Ambulance?</v-btn></v-list-item>
       </v-list>
-      <template v-slot:append>
-				<v-list-item><v-spacer/><v-btn x-small class="white--text" text color="accent">Made by Noemi Lemonnier</v-btn><v-spacer/></v-list-item>
-			</template>
     </v-navigation-drawer>
 
     <!-- Top bar in larger screens -->

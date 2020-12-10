@@ -70,7 +70,7 @@
 <script>
 import {getDistanceFromLatLonInKm, dateFormat} from '~/api/functions'
 import apis from "~/api/calls"
-import {getters} from '~/store/store'
+import {setters, getters} from '~/store/store'
 
 
 
@@ -100,6 +100,7 @@ export default {
                 response.data.forEach( request => {
                     if(request.customer.id === getters.GET_USER_ID() && request.request.finish_time === null){
                         this.request_id= request.request.id
+                        setters.SET_REQUEST_ID(request.request.id)
                         this.hasCurrentReq = true
                         let str = request.request.request_time
                         this.request_time = dateFormat(str)

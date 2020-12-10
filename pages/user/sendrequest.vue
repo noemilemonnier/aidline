@@ -13,7 +13,7 @@
                 <v-form ref="form" v-model="isValid" lazy-validation>
                         <v-card-text class="justify-center">
                             <v-row class="mx-2">
-                                <gmap-autocomplete class="ma-2" id="id" :disabled="isGeolocated" style="width: 75%; height: 45px; border-width: 1px; border-radius: 5px; border-color: #b1b1b1; border-style: inset;" :v-model="inputAddress" :placeholder="sentence" @place_changed="getAddress"> </gmap-autocomplete>
+                                <gmap-autocomplete class="ma-2" id="id" :disabled="isGeolocated" style="width: 68%; height: 45px; border-width: 1px; border-radius: 5px; border-color: #b1b1b1; border-style: inset;" :v-model="inputAddress" :placeholder="sentence" @place_changed="getAddress"> </gmap-autocomplete>
                                 <v-tooltip bottom>
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-btn class="ma-2" color="primary" width="60px" height="45px" :disabled="isAddress" @click="locatorButtonPressed" v-bind="attrs" v-on="on"><v-icon>{{$i.mdiMapMarker}}</v-icon></v-btn>
@@ -86,7 +86,7 @@ export default {
             let response = await apis.getUserRequest(getters.GET_USER_ID())
             if(response !== null && response.result === true){
                 response.data.forEach(req => {
-                    if(req.request.accept_time === null && req.request.finish_time === null){
+                    if(req.request.finish_time === null){
                         this.hasRequest = true
                         this.isLoading = false
                     }

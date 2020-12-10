@@ -101,33 +101,43 @@ export default {
 		async callme(){
 			try {
 				let that = this;
-				let request = await apis.getUserRequest(getters.GET_USER_ID())
-				if(getters.GET_USER_TYPE() === 1 && request.result === true && request.data[0] !== undefined){
-					request.data.forEach(req => {
-          				if(this.wasPushed === false && req.driver !== null && req.request.finish_time === null){
-							this.$notify({
-                    			group: 'foo',
-                    			type: 'success',
-                    			title: '<h1>Your Request has been assigned</h1>',
-                    			duration: 6000,
-                    			text: '<p style="font-size:15px;"> An ambulance has accepted. Please go to <b>Current Request</b> to see more details.</p>'
-                			});
-							this.wasPushed = true
-						}
-						else{
-							this.wasPushed = false
-						}
-					})
-				}
-				if(getters.GET_USER_TYPE() === 1 && request.result === false){
-					//This promise will resolve when 10 seconds have passed
-      				let timeOutPromise = new Promise(function(resolve, reject) {
-        				setTimeout(resolve, 10000, 'Timeout Done'); // 10 Seconds delay
-      				});
-      				Promise.all(
-        				[request, timeOutPromise]).then(function(values) {
-          				that.callme();
-        			});
+				if(getters.GET_USER_TYPE() === 1){
+					let request = await apis.getUserRequest(getters.GET_USER_ID())
+					if(request.result === true && this.wasPushed === false){
+						request.data.forEach(req => {
+          					if(req.request.id === getters.GET_REQUEST_ID() && req.driver !== null && req.request.finish_time === null){
+								this.$notify({
+                    				group: 'foo',
+                    				type: 'success',
+                    				title: '<h1>Your Request has been assigned</h1>',
+                    				duration: 6000,
+                    				text: '<p style="font-size:15px;"> An ambulance has accepted. Please go to <b>Current Request</b> to see more details.</p>'
+                				});
+								this.wasPushed = true
+							}
+							else{
+								this.wasPushed = false
+								//This promise will resolve when 10 seconds have passed
+      							let timeOutPromise = new Promise(function(resolve, reject) {
+        							setTimeout(resolve, 10000, 'Timeout Done'); // 10 Seconds delay
+      							});
+      							Promise.all(
+        							[request, timeOutPromise]).then(function(values) {
+          							that.callme();
+        						});
+							}
+						})
+					}
+					if(request.result === false && this.wasPushed === false){
+						//This promise will resolve when 10 seconds have passed
+      					let timeOutPromise = new Promise(function(resolve, reject) {
+        					setTimeout(resolve, 10000, 'Timeout Done'); // 10 Seconds delay
+      					});
+      					Promise.all(
+        					[request, timeOutPromise]).then(function(values) {
+          					that.callme();
+        				});
+					}
 				}
 				if(getters.GET_USER_TYPE() === 2){
 					let geolocate = await this.$store.dispatch( "geolocate" )

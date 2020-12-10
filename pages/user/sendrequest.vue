@@ -9,7 +9,7 @@
         <v-container v-if="!hasRequest">
             <v-row class="mt-5" justify="center">
                 <v-col cols="12" sm="10" md="8" lg="6">
-                <v-card width="40em" height="24em" class="scroll">
+                <v-card width="40em" height="100%" class="scroll">
                 <v-form ref="form" v-model="isValid" lazy-validation>
                         <v-card-text class="justify-center">
                             <v-row class="mx-2">
@@ -28,7 +28,7 @@
                     <v-card-actions>
                         <v-row class="mx-2">
                             <v-spacer></v-spacer>
-                            <v-btn large class="mx-2" color="primary" :disabled="!isValid" @click.prevent="validate">Submit</v-btn>
+                            <v-btn large color="primary" :disabled="!isValid" @click.prevent="validate">Submit</v-btn>
                             <v-spacer></v-spacer>
                         </v-row>
                     </v-card-actions>

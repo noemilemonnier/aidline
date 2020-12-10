@@ -13,10 +13,10 @@
                 <v-form ref="form" v-model="isValid" lazy-validation>
                         <v-card-text class="justify-center">
                             <v-row class="mx-2">
-                                <gmap-autocomplete class="mx-3" id="id" :disabled="isGeolocated" style="width: 75%; height: 45px; border-width: 1px; border-radius: 5px; border-color: #b1b1b1; border-style: inset;" :v-model="inputAddress" placeholder="Enter an address" @place_changed="getAddress"> </gmap-autocomplete>
+                                <gmap-autocomplete class="ma-2" id="id" :disabled="isGeolocated" style="width: 75%; height: 45px; border-width: 1px; border-radius: 5px; border-color: #b1b1b1; border-style: inset;" :v-model="inputAddress" :placeholder="sentence" @place_changed="getAddress"> </gmap-autocomplete>
                                 <v-tooltip bottom>
                                     <template v-slot:activator="{ on, attrs }">
-                                        <v-btn class="mx-2" color="primary" width="60px" height="45px" :disabled="isAddress" @click="locatorButtonPressed" v-bind="attrs" v-on="on"><v-icon>{{$i.mdiMapMarker}}</v-icon></v-btn>
+                                        <v-btn class="ma-2" color="primary" width="60px" height="45px" :disabled="isAddress" @click="locatorButtonPressed" v-bind="attrs" v-on="on"><v-icon>{{$i.mdiMapMarker}}</v-icon></v-btn>
                                     </template>
                                     <span>Click here to locate yourself</span>
                                 </v-tooltip>
@@ -68,6 +68,7 @@ export default {
         isValid: false,
         hasRequest: false,
         isGeolocated: false,
+        sentence: "  Enter an address...",
         isAddress: false,
         inputAddress: '',
         lat: 0,
@@ -123,6 +124,7 @@ export default {
         locatorButtonPressed() {
             try {
                 this.isGeolocated = true;
+                this.sentence= "Your location has been registered."
 				this.$store.dispatch( "geolocate" );
                 this.lat = this.$store.state.lat;
                 this.lng = this.$store.state.lng;

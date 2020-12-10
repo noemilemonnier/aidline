@@ -95,12 +95,14 @@ export default {
                 response.data.forEach(req => {
                     let driverID = null
                     let ambType = null
+                    let ambLicensePlate = null
                     let latDr = null
                     let lngDr = null
                     let dist = null
                     if(req.driver !== null){
                         driverID = req.driver.id
                         ambType = req.driver.type_of_ambulance
+                        ambLicensePlate = req.driver.ambulance_license_plate
                         latDr = req.driver.latitude
                         lngDr = req.driver.longitude
                         dist = getDistanceFromLatLonInKm(req.request.latitude, req.request.longitude, parseFloat(latDr), parseFloat(lngDr))
@@ -115,6 +117,7 @@ export default {
                         },
                         customer_request_description : req.request.request_description,
                         ambulance_type: ambType,
+                        ambulance_license_plate: ambLicensePlate,
                         driver_coordinates : {
                             driver_lat : latDr,
                             driver_lng : lngDr

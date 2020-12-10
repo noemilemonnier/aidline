@@ -102,8 +102,7 @@ export default {
 			try {
 				let that = this;
 				let request = await apis.getUserRequest(getters.GET_USER_ID())
-				let geolocate = await this.$store.dispatch( "geolocate" )
-				if(getters.GET_USER_TYPE() === 1 && request.data.result === true && request.data.data[0] !== undefined){ //if user is a user && has a active request
+				if(getters.GET_USER_TYPE() === 1 && request.result === true && request.data[0] !== undefined){
 					request.data.forEach(req => {
           				if(this.wasPushed === false && req.driver !== null && req.request.finish_time === null){
 							this.$notify({
@@ -120,25 +119,26 @@ export default {
 						}
 					})
 				}
-				if(getters.GET_USER_TYPE() === 1 && request.data.result === false){
-				//This promise will resolve when 10 seconds have passed
-      			let timeOutPromise = new Promise(function(resolve, reject) {
-        			setTimeout(resolve, 10000, 'Timeout Done'); // 10 Seconds delay
-      			});
-      			Promise.all(
-        			[request, timeOutPromise]).then(function(values) {
-          			that.callme();
-        		});
+				if(getters.GET_USER_TYPE() === 1 && request.result === false){
+					//This promise will resolve when 10 seconds have passed
+      				let timeOutPromise = new Promise(function(resolve, reject) {
+        				setTimeout(resolve, 10000, 'Timeout Done'); // 10 Seconds delay
+      				});
+      				Promise.all(
+        				[request, timeOutPromise]).then(function(values) {
+          				that.callme();
+        			});
 				}
 				if(getters.GET_USER_TYPE() === 2){
-				//This promise will resolve when 10 seconds have passed
-      			let timeOutPromise = new Promise(function(resolve, reject) {
-        			setTimeout(resolve, 10000, 'Timeout Done'); // 10 Seconds delay
-      			});
-      			Promise.all(
-        			[geolocate, timeOutPromise]).then(function(values) {
-          			that.callme();
-        		});
+					let geolocate = await this.$store.dispatch( "geolocate" )
+					//This promise will resolve when 10 seconds have passed
+      				let timeOutPromise = new Promise(function(resolve, reject) {
+        				setTimeout(resolve, 10000, 'Timeout Done'); // 10 Seconds delay
+      				});
+      				Promise.all(
+        				[geolocate, timeOutPromise]).then(function(values) {
+          				that.callme();
+        			});
 				}
 			} catch( err ){
 				console.error("Couldn't fetch request");

@@ -1,6 +1,6 @@
 <template>
   <v-container>
-      <v-row class="mt-5 mb-5 text-center">
+      <v-row class="mb-5 text-center">
           <v-col cols="12" md="6" lg="6">
               <v-row class="py-3 text-center" v-if="isLoading" >
                   <v-progress-circular :size="70" indeterminate color="primary" />

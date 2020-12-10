@@ -91,7 +91,7 @@ export default {
     }),
     async mounted(){
         try{
-            let response = await apis.getActiveRequests()
+            let response = await apis.getUserRequest()
             if (response.result === true) {
                 response.data.forEach( request => {
                     if(request.driver !== null && request.driver.id === getters.GET_USER_ID() && request.request.finish_time === null){

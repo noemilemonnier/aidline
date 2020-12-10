@@ -159,7 +159,7 @@ export const actions = {
     try {
       const body = { "email": email, "password": password, "first_name": first_name, "last_name": last_name, "user_type_id": 1, "customer_phone": customer_phone, "street_address": street_address, "postal_code": postal_code, "city": city, "country": country, "age": age, "credit_card_number": credit_card_number, "credit_card_cvv": credit_card_cvv, "credit_card_type": credit_card_type, "credit_card_holder_name": credit_card_holder_name, "credit_card_expiry": credit_card_expiry };
       axios.post("/api/create_customer", body)
-        .then( //the body need to return
+        .then(
           response => {
             if (response.data.result == true) {
               if(status === false){ //if user is creating a new profile
@@ -167,6 +167,8 @@ export const actions = {
                 setters.SET_USER_TYPE(1)
                 commit('SET_USER_ID', response.data.user_id);
                 commit('SET_USER_TYPE', 1);
+                setters.SET_USER_NAME(first_name)
+                commit('SET_USER_NAME', first_name);
                 this.$router.replace("/user")
               }
               else{ //when admin creates a new user type user

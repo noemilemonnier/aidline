@@ -57,6 +57,7 @@ npm install npm@latest -g
 ```
 
 ### Installation
+Important: you need your own .env file with your own Google API.
 
 1. Clone the repo
 ```sh
@@ -70,19 +71,16 @@ cd frontend
 ```sh
 npm install @nuxt/vuetify @nuxt/axios @nuxtjs/proxy jsonwebtoken nodemon scriptjs vue-google-places vuelidate bcryptjs vue-browser-geolocation vue2-google-maps @mdi/js vue-analytics vue-place-autocomplete
 ```
+or just
+
+```sh
+npm install 
+```
+
 4. Run the project for development
 ```sh
 npm run dev
 ```
-
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-
-
 
 <!-- ROADMAP -->
 ## Roadmap

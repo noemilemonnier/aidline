@@ -61,11 +61,11 @@ Important: you need your own .env file with your own Google API.
 
 1. Clone the repo
 ```sh
-git clone https://github.com/noemilemonnier/frontend
+git clone https://github.com/noemilemonnier/aidline
 ```
 2. Go into the folder
 ```sh
-cd frontend
+cd aidline
 ```
 3. Install NPM packages
 ```sh
